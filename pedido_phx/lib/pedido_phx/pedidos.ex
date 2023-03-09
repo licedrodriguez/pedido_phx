@@ -75,6 +75,15 @@ defmodule PedidoPhx.Pedidos do
     |> Repo.update()
   end
 
+  def update_total(%Pedido{} = pedido) do
+    mapProd = pedido.productos
+    total = Enum.reduce(mapProd, 0, fn(prod, total) -> total + prod.valor end)
+    pedido_params = %{total: total}
+    pedido
+    |> Pedido.changeset(pedido_params)
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a pedido.
 

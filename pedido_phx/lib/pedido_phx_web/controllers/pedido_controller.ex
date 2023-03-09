@@ -42,10 +42,7 @@ defmodule PedidoPhxWeb.PedidoController do
 
   def updateTotal(conn, %{"id" => id}) do
     pedido = Pedidos.get_pedido!(id)
-    mapProd = pedido.productos
-    total = Enum.reduce(mapProd, 0, fn(prod, total) -> total + prod.valor end)
-    pedido_params = %{total: total}
-    with {:ok, %Pedido{} = pedido} <- Pedidos.update_pedido(pedido, pedido_params) do
+    with {:ok, %Pedido{} = pedido} <- Pedidos.update_total(pedido) do
        render(conn, :show, pedido: pedido)
     end
    end
